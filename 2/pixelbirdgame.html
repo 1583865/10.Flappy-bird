@@ -1,0 +1,95 @@
+   <!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<style type="text/css">
+	*{
+		margin: 0;
+		padding: 0;
+	}
+	
+	canvas {
+		border: 1px solid red;
+		display: block;
+		margin: 0 auto;	
+	}
+	
+</style>
+<body>
+	<canvas id="myCanvas" width="360" height="512">	
+	</canvas>
+	<script type="text/javascript" src="js/Background.js"></script>
+	<script type="text/javascript" src="js/Bird.js"></script>
+	<script type="text/javascript" src="js/Game.js"></script>
+	<script type="text/javascript" src="js/Pipe.js"></script>
+	
+
+
+
+	<script type="text/javascript">
+
+	// 定义数组用于存放所有图片
+
+	var imgarr = ["images/bg_day.png","images/bird0_0.png","images/bird0_1.png", "images/bird0_2.png","images/land.png","images/pipe_down.png","images/pipe_up.png"];
+
+
+
+
+	// 调用图片数组
+	loadImage(imgarr, function(imgarr) {
+		// console.log(imgarr);
+	
+
+		// 获取canvas
+	var canvas = document.getElementById("myCanvas");
+	// 获取画笔
+	var ctx = canvas.getContext("2d");
+	// 获取鸟
+	var bird = new Bird(imgarr.slice(1, 4), 100, 100);
+	// 获取管子
+	var pipe = new Pipe(imgarr[5], imgarr[6],4, 360);
+	// 获取
+	var land = new Background(imgarr[4], 4, 0,400);
+	var mountain= new Background(imgarr[0], 2, 0, 0);
+
+	
+	window.g = new Game(ctx, bird, pipe, land, mountain);
+});
+
+
+
+
+
+
+// 封装函数
+	function loadImage(arr, callback) {
+		// 信号量
+		var idx = 0;
+		// 新数组
+		var loadImageArr = [];
+		arr.forEach(function(value, index) {
+			// 图片元素
+			var img = new Image();
+			// 设置路径
+			img.src = value;
+
+			// load事件
+			img.onload = function() {
+				// 信号量
+			
+
+				loadImageArr[index] = this;
+					idx++;
+				if(idx === arr.length) {
+					// 执行回调函数
+					callback(loadImageArr);
+				}
+			}
+		})
+	}
+	
+	</script>
+</body>
+</html>
